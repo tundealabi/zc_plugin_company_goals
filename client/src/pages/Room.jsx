@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useParams } from 'react-router';
 import { useDispatch } from 'react-redux';
 // import CentrifugeClient from 'centrifuge';
@@ -18,12 +18,19 @@ import DeleteSuccessModal from '../components/DeleteSuccess/DeleteSuccessModal';
 import BasicModal from '../components/EditGoal/EditGoal';
 import MissionVisionContainer from '../components/organization_mission_vision/OrganizationMissionVision';
 import { GetUserInfo, SubscribeToChannel } from '@zuri/control';
+import { commentSidebar } from '@zuri/comment-sidebar';
+import { pluginHeader } from '@zuri/plugin-header';
+import Parcel from 'single-spa-react/parcel';
 
 const AppRoom = () => {
   console.log('Am going to get userInfo');
   console.log(GetUserInfo());
   let { orgId } = useParams();
   const dispatch = useDispatch();
+  const commentSidebarConfig = useMemo(() => ({
+    messages: ['first message', 'second message', 'lossdnnkebgekeng bk gf gkf  hfk gk fw', 'hello world chat'],
+    showCommentSideBar: true,
+  }));
   //   useEffect(() => {
   //     dispatch(storeRoomId(orgId));
   //   }, []);
@@ -90,6 +97,12 @@ const AppRoom = () => {
         <MissionVisionContainer />
         <MainApp />
       </PluginSide>
+      <Parcel
+        config={commentSidebar}
+        wrapWith="div"
+        wrapStyle={{ width: '399px', position: 'absolute', right: '0' }}
+        commentSidebarConfig={commentSidebarConfig}
+      />
     </>
   );
 };
